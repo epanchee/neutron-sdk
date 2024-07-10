@@ -204,7 +204,7 @@ impl KVKey {
 
         Some(KVKey {
             path: split[0].to_string(),
-            key: Binary::new(decode_hex(split[1])?),
+            key: Binary::from(decode_hex(split[1])?),
         })
     }
 }

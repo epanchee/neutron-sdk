@@ -79,8 +79,8 @@ fn test_balance_reconstruct() {
 
             let s = StorageValue {
                 storage_prefix: "".to_string(),
-                key: Binary::new(balance_key),
-                value: Binary::new(coin.1.clone().into_bytes()),
+                key: Binary::from(balance_key),
+                value: Binary::from(coin.1.clone().into_bytes()),
             };
             st_values.push(s);
         }
@@ -138,8 +138,8 @@ fn test_bank_total_supply_reconstruct() {
             let denom_key = create_total_denom_key(case.denom.as_str()).unwrap();
             let s = StorageValue {
                 storage_prefix: "".to_string(),
-                key: Binary::new(denom_key),
-                value: Binary::new(case.amount.as_bytes().to_vec()),
+                key: Binary::from(denom_key),
+                value: Binary::from(case.amount.as_bytes().to_vec()),
             };
             st_values.push(s);
         }
@@ -358,8 +358,8 @@ fn test_staking_validators_reconstruct() {
             let validator_key = create_validator_key(&val_addr).unwrap();
             let s = StorageValue {
                 storage_prefix: "".to_string(),
-                key: Binary::new(validator_key),
-                value: Binary::new(validator.encode_to_vec()),
+                key: Binary::from(validator_key),
+                value: Binary::from(validator.encode_to_vec()),
             };
             st_values.push(s);
         }
@@ -481,8 +481,8 @@ fn test_validators_signing_infos_reconstruct() {
             let signing_info_key = create_validator_signing_info_key(&val_addr).unwrap();
             let s = StorageValue {
                 storage_prefix: "".to_string(),
-                key: Binary::new(signing_info_key),
-                value: Binary::new(info.encode_to_vec()),
+                key: Binary::from(signing_info_key),
+                value: Binary::from(info.encode_to_vec()),
             };
             st_values.push(s);
         }
@@ -664,8 +664,8 @@ fn test_government_proposals_reconstruct() {
             let proposal_key = create_gov_proposal_key(proposal.proposal_id).unwrap();
             let s = StorageValue {
                 storage_prefix: "".to_string(),
-                key: Binary::new(proposal_key),
-                value: Binary::new(proposal.encode_to_vec()),
+                key: Binary::from(proposal_key),
+                value: Binary::from(proposal.encode_to_vec()),
             };
             st_values.push(s);
         }
@@ -718,8 +718,8 @@ fn test_fee_pool_reconstruct() {
 
         let st_value = StorageValue {
             storage_prefix: "".to_string(),
-            key: Binary::new(fee_pool_key),
-            value: Binary::new(fee_pool.encode_to_vec()),
+            key: Binary::from(fee_pool_key),
+            value: Binary::from(fee_pool.encode_to_vec()),
         };
 
         let fee_pool_coins = FeePool::reconstruct(&[st_value]).unwrap();
@@ -891,7 +891,7 @@ fn test_delegations_reconstruct() {
         // prepare storage values
         let mut st_values: Vec<StorageValue> = vec![StorageValue {
             storage_prefix: STAKING_STORE_KEY.to_string(),
-            key: Binary::new(vec![STAKING_PARAMS_KEY]),
+            key: Binary::from(vec![STAKING_PARAMS_KEY]),
             value: {
                 if ts.staking_params.bond_denom.is_empty() {
                     return Default::default();
@@ -906,14 +906,14 @@ fn test_delegations_reconstruct() {
 
             st_values.push(StorageValue {
                 storage_prefix: STAKING_STORE_KEY.to_string(),
-                key: Binary::new(create_delegation_key(&delegator_addr, &val_addr).unwrap()),
+                key: Binary::from(create_delegation_key(&delegator_addr, &val_addr).unwrap()),
                 value: Binary::from(d.encode_to_vec()),
             });
 
             if let Some(v) = ts.validators.get(i) {
                 st_values.push(StorageValue {
                     storage_prefix: STAKING_STORE_KEY.to_string(),
-                    key: Binary::new(create_validator_key(&val_addr).unwrap()),
+                    key: Binary::from(create_validator_key(&val_addr).unwrap()),
                     value: Binary::from(v.encode_to_vec()),
                 });
             }
@@ -933,7 +933,7 @@ fn test_balance_reconstruct_from_hex() {
 
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::new(create_account_denom_balance_key("addr", "uatom").unwrap()),
+        key: Binary::from(create_account_denom_balance_key("addr", "uatom").unwrap()),
         value: Binary::from_base64(base64_input.as_str()).unwrap(),
     };
     let bank_balances = Balances::reconstruct(&[s]).unwrap();
@@ -949,7 +949,7 @@ fn test_balance_reconstruct_from_hex() {
 fn test_balance_reconstruct_from_empty_value() {
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::new(create_account_denom_balance_key("addr", "uatom").unwrap()),
+        key: Binary::from(create_account_denom_balance_key("addr", "uatom").unwrap()),
         value: Binary::from(vec![]),
     };
     let bank_balances = Balances::reconstruct(&[s]).unwrap();
@@ -968,7 +968,7 @@ fn test_bank_total_supply_reconstruct_from_hex() {
 
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::new(create_total_denom_key("stake").unwrap()),
+        key: Binary::from(create_total_denom_key("stake").unwrap()),
         value: Binary::from_base64(base64_input.as_str()).unwrap(),
     };
     let total_supply = TotalSupply::reconstruct(&[s]).unwrap();
@@ -1031,7 +1031,7 @@ fn test_delegations_reconstruct_overflow() {
         // prepare storage values
         let mut st_values: Vec<StorageValue> = vec![StorageValue {
             storage_prefix: STAKING_STORE_KEY.to_string(),
-            key: Binary::new(create_params_store_key(STAKING_STORE_KEY, KEY_BOND_DENOM)),
+            key: Binary::from(create_params_store_key(STAKING_STORE_KEY, KEY_BOND_DENOM)),
             value: {
                 if ts.staking_params.bond_denom.is_empty() {
                     return Default::default();
@@ -1046,14 +1046,14 @@ fn test_delegations_reconstruct_overflow() {
 
             st_values.push(StorageValue {
                 storage_prefix: STAKING_STORE_KEY.to_string(),
-                key: Binary::new(create_delegation_key(&delegator_addr, &val_addr).unwrap()),
+                key: Binary::from(create_delegation_key(&delegator_addr, &val_addr).unwrap()),
                 value: Binary::from(d.encode_to_vec()),
             });
 
             if let Some(v) = ts.validators.get(i) {
                 st_values.push(StorageValue {
                     storage_prefix: STAKING_STORE_KEY.to_string(),
-                    key: Binary::new(create_validator_key(&val_addr).unwrap()),
+                    key: Binary::from(create_validator_key(&val_addr).unwrap()),
                     value: Binary::from(v.encode_to_vec()),
                 });
             }

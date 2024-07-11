@@ -1,10 +1,10 @@
 [package]
-name = "neutron-sdk"
+name = "astroport-neutron-sdk"
 description = "Neutron CosmWasm SDK for interacting with Neutron blockchain"
-version = "0.11.0"
+version = "0.11.0-cosmwasm-v1"
 edition = "2021"
 license = "Apache-2.0"
-repository = "https://github.com/neutron-org/neutron-sdk"
+#repository = "https://github.com/neutron-org/neutron-sdk"
 homepage = "https://neutron.org"
 readme = "README.md"
 

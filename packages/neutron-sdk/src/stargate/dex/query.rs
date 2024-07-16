@@ -24,27 +24,29 @@ use crate::stargate::dex::types::{
 };
 use cosmwasm_std::{Deps, StdResult};
 
-const PARAMS_QUERY_PATH: &str = "/neutron.dex.Query/Params";
-const LIMIT_ORDER_TRANCHE_USER_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTrancheUser";
-const LIMIT_ORDER_TRANCHE_USER_ALL_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTrancheUserAll";
-const LIMIT_ORDER_TRANCHE_USER_ALL_BY_ADDRESS_QUERY_PATH: &str =
+pub const PARAMS_QUERY_PATH: &str = "/neutron.dex.Query/Params";
+pub const LIMIT_ORDER_TRANCHE_USER_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTrancheUser";
+pub const LIMIT_ORDER_TRANCHE_USER_ALL_QUERY_PATH: &str =
+    "/neutron.dex.Query/LimitOrderTrancheUserAll";
+pub const LIMIT_ORDER_TRANCHE_USER_ALL_BY_ADDRESS_QUERY_PATH: &str =
     "/neutron.dex.Query/LimitOrderTrancheUserAllByAddress";
-const LIMIT_ORDER_TRANCHE_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTranche";
-const LIMIT_ORDER_TRANCHE_ALL_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTrancheAll";
-const USER_DEPOSITS_ALL_QUERY_PATH: &str = "/neutron.dex.Query/UserDepositsAll";
-const TICK_LIQUIDITY_ALL_QUERY_PATH: &str = "/neutron.dex.Query/TickLiquidityAll";
-const INACTIVE_LIMIT_ORDER_TRANCHE_QUERY_PATH: &str =
+pub const LIMIT_ORDER_TRANCHE_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTranche";
+pub const LIMIT_ORDER_TRANCHE_ALL_QUERY_PATH: &str = "/neutron.dex.Query/LimitOrderTrancheAll";
+pub const USER_DEPOSITS_ALL_QUERY_PATH: &str = "/neutron.dex.Query/UserDepositsAll";
+pub const TICK_LIQUIDITY_ALL_QUERY_PATH: &str = "/neutron.dex.Query/TickLiquidityAll";
+pub const INACTIVE_LIMIT_ORDER_TRANCHE_QUERY_PATH: &str =
     "/neutron.dex.Query/InactiveLimitOrderTranche";
-const INACTIVE_LIMIT_ORDER_TRANCHE_ALL_QUERY_PATH: &str =
+pub const INACTIVE_LIMIT_ORDER_TRANCHE_ALL_QUERY_PATH: &str =
     "/neutron.dex.Query/InactiveLimitOrderTrancheAll";
-const POOL_RESERVES_ALL_QUERY_PATH: &str = "/neutron.dex.Query/PoolReservesAll";
-const POOL_RESERVES_QUERY_PATH: &str = "/neutron.dex.Query/PoolReserves";
-const ESTIMATE_MULTI_HOP_SWAP_QUERY_PATH: &str = "/neutron.dex.Query/EstimateMultiHopSwap";
-const ESTIMATE_PLACE_LIMIT_ORDER_QUERY_PATH: &str = "/neutron.dex.Query/EstimatePlaceLimitOrder";
-const POOL_QUERY_PATH: &str = "/neutron.dex.Query/Pool";
-const POOL_BY_ID_QUERY_PATH: &str = "/neutron.dex.Query/PoolByID";
-const POOL_METADATA_QUERY_PATH: &str = "/neutron.dex.Query/PoolMetadata";
-const POOL_METADATA_ALL_QUERY_PATH: &str = "/neutron.dex.Query/PoolMetadataAll";
+pub const POOL_RESERVES_ALL_QUERY_PATH: &str = "/neutron.dex.Query/PoolReservesAll";
+pub const POOL_RESERVES_QUERY_PATH: &str = "/neutron.dex.Query/PoolReserves";
+pub const ESTIMATE_MULTI_HOP_SWAP_QUERY_PATH: &str = "/neutron.dex.Query/EstimateMultiHopSwap";
+pub const ESTIMATE_PLACE_LIMIT_ORDER_QUERY_PATH: &str =
+    "/neutron.dex.Query/EstimatePlaceLimitOrder";
+pub const POOL_QUERY_PATH: &str = "/neutron.dex.Query/Pool";
+pub const POOL_BY_ID_QUERY_PATH: &str = "/neutron.dex.Query/PoolByID";
+pub const POOL_METADATA_QUERY_PATH: &str = "/neutron.dex.Query/PoolMetadata";
+pub const POOL_METADATA_ALL_QUERY_PATH: &str = "/neutron.dex.Query/PoolMetadataAll";
 
 /// Queries the parameters of the module.
 pub fn get_params(deps: Deps, req: ParamsRequest) -> StdResult<ParamsResponse> {

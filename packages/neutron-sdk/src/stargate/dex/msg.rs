@@ -10,12 +10,12 @@ use crate::stargate::dex::types::{
     WithdrawFilledLimitOrderRequest, WithdrawalRequest,
 };
 
-const DEPOSIT_MSG_PATH: &str = "/neutron.dex.MsgDeposit";
-const WITHDRAWAL_MSG_PATH: &str = "/neutron.dex.MsgWithdrawal";
-const PLACE_LIMIT_ORDER_MSG_PATH: &str = "/neutron.dex.MsgPlaceLimitOrder";
-const WITHDRAW_FILLED_LIMIT_ORDER_MSG_PATH: &str = "/neutron.dex.MsgWithdrawFilledLimitOrder";
-const CANCEL_LIMIT_ORDER_MSG_PATH: &str = "/neutron.dex.MsgCancelLimitOrder";
-const MULTI_HOP_SWAP_MSG_PATH: &str = "/neutron.dex.MsgMultiHopSwap";
+pub const DEPOSIT_MSG_PATH: &str = "/neutron.dex.MsgDeposit";
+pub const WITHDRAWAL_MSG_PATH: &str = "/neutron.dex.MsgWithdrawal";
+pub const PLACE_LIMIT_ORDER_MSG_PATH: &str = "/neutron.dex.MsgPlaceLimitOrder";
+pub const WITHDRAW_FILLED_LIMIT_ORDER_MSG_PATH: &str = "/neutron.dex.MsgWithdrawFilledLimitOrder";
+pub const CANCEL_LIMIT_ORDER_MSG_PATH: &str = "/neutron.dex.MsgCancelLimitOrder";
+pub const MULTI_HOP_SWAP_MSG_PATH: &str = "/neutron.dex.MsgMultiHopSwap";
 
 /// Provides liquidity to a specific trading pair by depositing tokens at a specific price into one
 /// or both sides of the pair in “a liquidity pool”.

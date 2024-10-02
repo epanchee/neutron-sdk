@@ -1,5 +1,6 @@
-use itertools::Itertools;
 use proc_macro::TokenStream;
+
+use itertools::Itertools;
 use proc_macro2::TokenTree;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput};
@@ -42,31 +43,17 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
         let query_request_conversion = quote! {
             impl <Q: cosmwasm_std::CustomQuery> From<#ident> for cosmwasm_std::QueryRequest<Q> {
                 fn from(msg: #ident) -> Self {
-                    cosmwasm_std::QueryRequest::<Q>::Grpc(cosmwasm_std::GrpcQuery {
+                    cosmwasm_std::QueryRequest::<Q>::Stargate {
                         path: #path.to_string(),
                         data: msg.into(),
-                    })
+                    }
                 }
             }
         };
 
         let cosmwasm_query = quote! {
             pub fn query(self, querier: &cosmwasm_std::QuerierWrapper<impl cosmwasm_std::CustomQuery>) -> cosmwasm_std::StdResult<#res> {
-                use prost::Message;
-                let resp = #res::decode(
-                    querier.query_grpc(
-                        #path.to_string(),
-                        self.to_proto_bytes().into(),
-                    )?
-                    .as_slice(),
-                );
-                match resp {
-                    Err(e) => Err(cosmwasm_std::StdError::generic_err(format!(
-                        "Can't decode item: {}",
-                        e
-                    ))),
-                    Ok(data) => Ok(data),
-                }
+                querier.query::<#res>(&self.into())
             }
         };
 
@@ -98,16 +85,16 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
 
         impl From<#ident> for cosmwasm_std::Binary {
             fn from(msg: #ident) -> Self {
-                cosmwasm_std::Binary::new(msg.to_proto_bytes())
+                cosmwasm_std::Binary::from(msg.to_proto_bytes())
             }
         }
 
         impl<T> From<#ident> for cosmwasm_std::CosmosMsg<T> {
             fn from(msg: #ident) -> Self {
-                cosmwasm_std::CosmosMsg::<T>::Any(cosmwasm_std::AnyMsg {
+                cosmwasm_std::CosmosMsg::<T>::Stargate {
                     type_url: #type_url.to_string(),
                     value: msg.into(),
-                })
+                }
             }
         }
 
@@ -143,7 +130,7 @@ pub fn derive_cosmwasm_ext(input: TokenStream) -> TokenStream {
             }
         }
     })
-    .into()
+        .into()
 }
 
 fn get_type_url(attrs: &[syn::Attribute]) -> proc_macro2::TokenStream {

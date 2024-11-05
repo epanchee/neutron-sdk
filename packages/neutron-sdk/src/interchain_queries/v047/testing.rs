@@ -1,4 +1,3 @@
-use crate::bindings::types::StorageValue;
 use crate::interchain_queries::helpers::decode_and_convert;
 use crate::interchain_queries::types::KVReconstruct;
 use crate::interchain_queries::v045::helpers::create_params_store_key;
@@ -29,6 +28,7 @@ use cosmos_sdk_proto::cosmos::staking::v1beta1::{
 use cosmos_sdk_proto::traits::Message;
 use cosmwasm_std::{Addr, Binary, Coin as StdCoin, Decimal, Timestamp, Uint128};
 use hex;
+use neutron_std::types::neutron::interchainqueries::StorageValue;
 use std::ops::Mul;
 use std::str::FromStr;
 
@@ -896,8 +896,9 @@ fn test_delegations_reconstruct() {
                 if ts.staking_params.bond_denom.is_empty() {
                     return Default::default();
                 }
-                Binary::from(ts.staking_params.encode_to_vec())
+                ts.staking_params.encode_to_vec()
             },
+            proof: None,
         }];
 
         for (i, d) in ts.delegations.iter().enumerate() {
@@ -1036,8 +1037,9 @@ fn test_delegations_reconstruct_overflow() {
                 if ts.staking_params.bond_denom.is_empty() {
                     return Default::default();
                 }
-                Binary::from(ts.staking_params.encode_to_vec())
+                ts.staking_params.encode_to_vec()
             },
+            proof: None,
         }];
 
         for (i, d) in ts.delegations.iter().enumerate() {
@@ -1073,8 +1075,9 @@ fn test_staking_validators_reconstruct_from_hex() {
 
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(base64_input.as_str()).unwrap().to_vec(),
+        proof: None,
     };
     let staking_validator = StakingValidator::reconstruct(&[s]).unwrap();
     assert_eq!(
@@ -1116,8 +1119,9 @@ fn test_validators_signing_infos_reconstruct_from_hex() {
 
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(base64_input.as_str()).unwrap().to_vec(),
+        proof: None,
     };
     let signing_info = SigningInfo::reconstruct(&[s]).unwrap();
     assert_eq!(
@@ -1142,8 +1146,9 @@ fn test_government_proposals_reconstruct_from_hex() {
 
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(base64_input.as_str()).unwrap().to_vec(),
+        proof: None,
     };
     let proposals = GovernmentProposal::reconstruct(&[s]).unwrap();
     assert_eq!(
@@ -1179,8 +1184,9 @@ fn test_fee_pool_reconstruct_from_hex() {
 
     let s = StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(base64_input.as_str()).unwrap().to_vec(),
+        proof: None,
     };
     let fee_pool = FeePool::reconstruct(&[s]).unwrap();
     assert_eq!(
@@ -1253,18 +1259,27 @@ fn test_delegations_reconstruct_from_hex() {
 
     let mut st_values: Vec<StorageValue> = vec![StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(staking_params_base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(staking_params_base64_input.as_str())
+            .unwrap()
+            .to_vec(),
+        proof: None,
     }];
     st_values.push(StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(delegation_base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(delegation_base64_input.as_str())
+            .unwrap()
+            .to_vec(),
+        proof: None,
     });
     st_values.push(StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(staking_validator_base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(staking_validator_base64_input.as_str())
+            .unwrap()
+            .to_vec(),
+        proof: None,
     });
 
     let delegations = Delegations::reconstruct(&st_values).unwrap();
@@ -1291,8 +1306,11 @@ fn test_unbonding_delegations_reconstruct_from_hex() {
 
     let st_values: Vec<StorageValue> = vec![StorageValue {
         storage_prefix: String::default(), // not used in reconstruct
-        key: Binary::default(),            // not used in reconstruct
-        value: Binary::from_base64(unbonding_delegations_base64_input.as_str()).unwrap(),
+        key: vec![],                       // not used in reconstruct
+        value: Binary::from_base64(unbonding_delegations_base64_input.as_str())
+            .unwrap()
+            .to_vec(),
+        proof: None,
     }];
 
     let unbonding_delegations = UnbondingDelegations::reconstruct(&st_values).unwrap();

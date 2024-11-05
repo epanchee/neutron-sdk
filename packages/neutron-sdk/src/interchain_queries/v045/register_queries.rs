@@ -78,7 +78,7 @@ pub fn new_register_bank_total_supply_query_msg(
 
         let kv_key = KvKey {
             path: BANK_STORE_KEY.to_string(),
-            key: Binary::from(supply_key),
+            key: supply_key,
         };
 
         kv_keys.push(kv_key)
@@ -104,7 +104,7 @@ pub fn new_register_distribution_fee_pool_query_msg(
 ) -> NeutronResult<CosmosMsg> {
     let kv_key = KvKey {
         path: DISTRIBUTION_STORE_KEY.to_string(),
-        key: Binary::from(create_fee_pool_key()?),
+        key: create_fee_pool_key()?,
     };
 
     register_interchain_query(
@@ -216,7 +216,7 @@ pub fn new_register_staking_validators_query_msg(
 
         let kv_key = KvKey {
             path: STAKING_STORE_KEY.to_string(),
-            key: Binary::from(create_validator_key(&val_addr)?),
+            key: create_validator_key(&val_addr)?,
         };
 
         kv_keys.push(kv_key)
@@ -249,7 +249,7 @@ pub fn new_register_validators_signing_infos_query_msg(
 
         let kv_key = KvKey {
             path: SLASHING_STORE_KEY.to_string(),
-            key: Binary::from(create_validator_signing_info_key(&valcons_addr)?),
+            key: create_validator_signing_info_key(&valcons_addr)?,
         };
 
         kv_keys.push(kv_key)
@@ -288,7 +288,7 @@ pub fn new_register_delegator_delegations_query_msg(
     // create KV key to get BondDenom from staking module params
     keys.push(KvKey {
         path: PARAMS_STORE_KEY.to_string(),
-        key: Binary::from(create_params_store_key(STAKING_STORE_KEY, KEY_BOND_DENOM)),
+        key: create_params_store_key(STAKING_STORE_KEY, KEY_BOND_DENOM),
     });
 
     for v in validators {
@@ -297,13 +297,13 @@ pub fn new_register_delegator_delegations_query_msg(
         // create delegation key to get delegation structure
         keys.push(KvKey {
             path: STAKING_STORE_KEY.to_string(),
-            key: Binary::from(create_delegation_key(&delegator_addr, &val_addr)?),
+            key: create_delegation_key(&delegator_addr, &val_addr)?,
         });
 
         // create validator key to get validator structure
         keys.push(KvKey {
             path: STAKING_STORE_KEY.to_string(),
-            key: Binary::from(create_validator_key(&val_addr)?),
+            key: create_validator_key(&val_addr)?,
         })
     }
 
@@ -340,7 +340,7 @@ pub fn new_register_delegator_unbonding_delegations_query_msg(
         // create unbonding delegation key to get unbonding delegation structure
         keys.push(KvKey {
             path: STAKING_STORE_KEY.to_string(),
-            key: Binary::from(create_unbonding_delegation_key(&delegator_addr, &val_addr)?),
+            key: create_unbonding_delegation_key(&delegator_addr, &val_addr)?,
         })
     }
 
@@ -378,7 +378,7 @@ pub fn new_register_wasm_contract_store_query_msg(
 
     let kv_key = KvKey {
         path: WASM_STORE_KEY.to_string(),
-        key: Binary::from(wasm_key),
+        key: wasm_key,
     };
 
     register_interchain_query(

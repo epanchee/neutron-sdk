@@ -16,7 +16,7 @@ overflow-checks = true
 [workspace.dependencies]
 cosmwasm-std = "1.5"
 cw2 = "1.1"
-neutron-std = { git = "https://github.com/neutron-org/neutron-std", branch = "main" }
+neutron-std = { git = "https://github.com/epanchee/neutron-std", branch = "backport/cosmwasm_v1" }
 schemars = "0.8.15"
 serde = { version = "1.0.188", default-features = false }
 serde-json-wasm = "1.0.0"
